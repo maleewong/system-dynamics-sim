@@ -1,0 +1,40 @@
+{
+    "stocks": {
+        "G": 280.0,
+        "X": 0.0
+    },
+    "parameters": {
+        "p1": 0.03,
+        "p2": 0.025,
+        "p3": 0.000013,
+        "Gb": 90.0,
+        "Ib": 10.0
+    },
+    "flows": {
+        "glucose_utilization": {
+            "formula": "p1*(G-Gb) + X*G"
+        },
+        "insulin_action_decay": {
+            "formula": "p2*X"
+        },
+        "insulin_action_input": {
+            "formula": "p3*(Ia(t)-Ib)"
+        }
+    },
+    "edges": [
+        {"from": "p1", "to": "glucose_utilization", "type": "information"},
+        {"from": "G",  "to": "glucose_utilization", "type": "information"},
+        {"from": "Gb", "to": "glucose_utilization", "type": "information"},
+        {"from": "X",  "to": "glucose_utilization", "type": "information"},
+        {"from": "G",  "to": "glucose_utilization", "type": "outflow"},
+
+        {"from": "p2", "to": "insulin_action_decay", "type": "information"},
+        {"from": "X",  "to": "insulin_action_decay", "type": "information"},
+        {"from": "X",  "to": "insulin_action_decay", "type": "outflow"},
+
+        {"from": "p3", "to": "insulin_action_input", "type": "information"},
+        {"from": "Ib", "to": "insulin_action_input", "type": "information"},
+        {"from": "insulin_action_input", "to": "X", "type": "inflow"}
+    ],
+    "timeseries": {}
+}
